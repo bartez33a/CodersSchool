@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(EXERCISE_1)
+project("Templates - basics")
 
-add_executable(somename ex1.cpp)
+add_executable(ex1 ex1.cpp)
+
