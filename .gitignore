@@ -1,2 +1,3 @@
 *.o
 templates-basics/build/
+.vscode/
