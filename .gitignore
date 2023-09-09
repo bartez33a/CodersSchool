@@ -1,3 +1,4 @@
 *.o
 templates-basics/build/
 .vscode/
+*.exe

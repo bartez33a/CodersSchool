@@ -6,7 +6,9 @@
 
    Elements at the same position in both vectors create a pair.
 
-   Implement methods: insert(), operator[], at().
+   If <ValueType> has not default constructor do not allow to create object.
+
+   Implement methods: insert(), operator[], at(), isIntKey().
 
    Duplicates are allowed.
 
@@ -16,23 +18,32 @@
    map[1] = 'e';        // replaces value under 1
    std::cout << map[i]; // prints 'e'
    map.at(2);           // throw std::out_of_range
+
+
+   
 */
 
 #include <iostream>
 #include <vector>
 #include <algorithm>
 #include <stdexcept>
+#include<type_traits>
 
 template <typename KeyType, typename ValueType>
 class VectorMap
 {
    public:
       // default constructor
-      VectorMap() {};
+      VectorMap() 
+      {
+         static_assert(std::is_constructible<ValueType>::value, "Value type must contain default constructor!");
+      };
 
       void insert(KeyType key, ValueType value);
-      ValueType& operator[](const KeyType key);
+      bool isIntKey();
       ValueType& at(KeyType key);
+      ValueType& operator[](const KeyType key);
+      
 
    private:
       std::vector<KeyType> keys;
@@ -80,6 +91,21 @@ ValueType& VectorMap<KeyType, ValueType>::at(KeyType key)
    return values[index];
 }
 
+template <typename KeyType, typename ValueType>
+bool VectorMap<KeyType, ValueType>::isIntKey()
+{
+   return std::is_same<int, KeyType>::value;
+}
+
+
+
+struct noDefaultConstructor
+{
+   noDefaultConstructor() = delete;
+
+   int a;
+};
+
 
 
 int main()
@@ -87,29 +113,39 @@ int main()
    std::cout << "Templates - basics - exercise 2.\n";
 
    // create instance of VectorMap<int, char>
-   VectorMap<int, char> map;  
+   VectorMap<int, char> mapIntChar;  
    
-   map.insert(1, 'c');
-   std::cout << map[1] << '\n';     // prints 'c'
+   mapIntChar.insert(1, 'c');
+   std::cout << mapIntChar[1] << '\n';     // prints 'c'
 
-   map[1] = 'e';                    // replaces value under 1
-   std::cout << map[1] << '\n';     // prints 'e'
+   mapIntChar[1] = 'e';                    // replaces value under 1
+   std::cout << mapIntChar[1] << '\n';     // prints 'e'
    
-   map[2] = 'g';                    // add new element of key 2 and value 'g'
-   std::cout << map[2] << '\n';     // prints 'g'
-   std::cout << map.at(2) << '\n';  // prints 'g'
+   mapIntChar[2] = 'g';                    // add new element of key 2 and value 'g'
+   std::cout << mapIntChar[2] << '\n';     // prints 'g'
+   std::cout << mapIntChar.at(2) << '\n';  // prints 'g'
 
-   map[99] = 'h';                    // add new element of key 99 and value 'h'
-   std::cout << map.at(99) << '\n';  // prints 'h'
+   mapIntChar[99] = 'h';                    // add new element of key 99 and value 'h'
+   std::cout << mapIntChar.at(99) << '\n';  // prints 'h'
 
    try
    {
-      map.at(100) = 'x';            // throws std::out_of_range
+      mapIntChar.at(100) = 'x';            // throws std::out_of_range
    }
    catch(std::out_of_range)
    {
       std::cout << "std::out_of_range catched!\n";
    }
+
+   //VectorMap<int, noDefaultConstructor> map2;
+   
+   // check whether key of mapIntChar is int
+   std::cout << "key of mapIntChar is integer: " << mapIntChar.isIntKey() << '\n';
+
+   VectorMap<char, int> mapCharInt;
+   // check whether key of mapCharInt is int
+   std::cout << "key of mapCharInt is integer: " << mapCharInt.isIntKey() << '\n';
+   
 
    return 0;
 }
