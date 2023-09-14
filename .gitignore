@@ -1,4 +1,5 @@
 *.o
 templates-basics/build/
+modern-cpp/lambdas/build
 .vscode/
 *.exe
