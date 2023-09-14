@@ -1,0 +1,3 @@
+/home/bartek-ubuntu/Projects/CodersSchool/modern-cpp/lambdas/build/CMakeFiles/threeWays.dir
+/home/bartek-ubuntu/Projects/CodersSchool/modern-cpp/lambdas/build/CMakeFiles/edit_cache.dir
+/home/bartek-ubuntu/Projects/CodersSchool/modern-cpp/lambdas/build/CMakeFiles/rebuild_cache.dir
